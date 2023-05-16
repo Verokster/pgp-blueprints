@@ -1,0 +1,2 @@
+pgpy==0.6.0
+shipyard-utils==0.1.4
