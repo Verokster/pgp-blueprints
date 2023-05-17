@@ -89,16 +89,16 @@ def find_all_file_matches(file_names, file_name_re):
 
     return matching_file_names
 
-def encrypt_file(
+def decrypt_file(
         source_file_name,
         destination_file_name,
         key):
         
-    message = pgpy.PGPMessage.new(source_file_name, file=True)
-    encrypted = key.pubkey.encrypt(message)
-        
-    with open(destination_file_name, "wb") as f:
-        f.write(bytes(encrypted))
+    encrypted = pgpy.PGPMessage.from_file(source_file_name)
+    pgp = key.decrypt(encrypted).message
+    
+    with open(destination_file_name, "w" if isinstance(pgp, str) else "wb") as f:
+        f.write(pgp)
 
 def main():
     args = get_args()
@@ -120,22 +120,22 @@ def main():
         file_paths = find_all_local_file_names(source_folder_name)
         matching_file_paths = find_all_file_matches(
             file_paths, re.compile(source_file_name))
-        print(f'{len(matching_file_paths)} files found. Preparing to encrypt first match')
+        print(f'{len(matching_file_paths)} files found. Preparing to decrypt first match')
         if not os.path.exists(destination_folder_name) and (
                 destination_folder_name != ''):
             os.makedirs(destination_folder_name)
 
         for source_file in matching_file_paths:
-            encrypt_file(source_file, destination_file_name, key)
+            decrypt_file(source_file, destination_file_name, key)
             break
 
     else:
         if not os.path.exists(destination_folder_name) and (
                 destination_folder_name != ''):
             os.makedirs(destination_folder_name)
-        encrypt_file(source_full_path, destination_full_path, key)
+        decrypt_file(source_full_path, destination_full_path, key)
     
-    print(f'File was encrypted into {destination_full_path}')
+    print(f'File was decrypted into {destination_full_path}')
 
 if __name__ == '__main__':
     main()
