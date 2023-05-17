@@ -100,16 +100,6 @@ def encrypt_file(
         
         with open(destination_file_name, "wb") as fout:
             fout.write(bytes(enc_message))
-            
-def encrypt_files(
-        source_file_names,
-        destination_file_name,
-        key):
-        
-    for source_file_n in source_file_names:
-        encrypt_file(source_file_n, destination_file_name, key)
-        
-    
 
 def main():
     args = get_args()
@@ -135,14 +125,17 @@ def main():
         if not os.path.exists(destination_folder_name) and (
                 destination_folder_name != ''):
             os.makedirs(destination_folder_name)
-        encrypt_files(matching_file_paths, destination_full_path, key)
-        print(f'All files were encrypted into {destination_full_path}')
+
+        for source_file in matching_file_paths:
+            encrypt_file(source_file, destination_file_name, key)
+
     else:
         if not os.path.exists(destination_folder_name) and (
                 destination_folder_name != ''):
             os.makedirs(destination_folder_name)
         encrypt_file(source_full_path, destination_full_path, key)
-        print(f'All files were encrypted into {destination_full_path}')
+    
+    print(f'File was encrypted into {destination_full_path}')
 
 if __name__ == '__main__':
     main()
