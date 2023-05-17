@@ -15,7 +15,7 @@ for path in Path('./').rglob('requirements.txt'):
 config = {
     "description": "Simplified blueprints for building data pipelines with OpenPGP. ",
     "author": "Oleksiy Ryabchun",
-    "url": "https: // www.shipyardapp.com",
+    "url": "",
     "author_email": "verokster@gmail.com",
     "packages": find_packages(),
     "install_requires": install_requires,
