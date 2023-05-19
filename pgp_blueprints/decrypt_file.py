@@ -8,7 +8,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--source-file-name-match-type',
-        dest='source_file_name_match_type',
+        dest='PGP_SOURCE_FILE_NAME_MATCH_TYPE',
         default='exact_match',
         choices={
             'exact_match',
@@ -16,26 +16,26 @@ def get_args():
         required=False)
     parser.add_argument(
         '--source-folder-name',
-        dest='source_folder_name',
+        dest='PGP_SOURCE_FOLDER_NAME',
         default='',
         required=False)
     parser.add_argument(
         '--source-file-name',
-        dest='source_file_name',
+        dest='PGP_SOURCE_FILE_NAME',
         required=True)
     parser.add_argument(
         '--destination-file-name',
-        dest='destination_file_name',
+        dest='PGP_DESTINATION_FILE_NAME',
         default=None,
         required=False)
     parser.add_argument(
         '--destination-folder-name',
-        dest='destination_folder_name',
+        dest='PGP_DESTINATION_FOLDER_NAME',
         default='',
         required=False)
     parser.add_argument(
         '--pgp-private-key',
-        dest='pgp_private_key',
+        dest='PGP_PRIVATE_KEY',
         default=None,
         required=True)
     return parser.parse_args()
@@ -98,15 +98,15 @@ def main():
     args = get_args()
 
     key = pgpy.PGPKey()
-    key.parse(args.pgp_private_key)
+    key.parse(args.PGP_PRIVATE_KEY)
     
-    source_file_name = args.source_file_name
-    source_folder_name = clean_folder_name(args.source_folder_name)
+    source_file_name = args.PGP_SOURCE_FILE_NAME
+    source_folder_name = clean_folder_name(args.PGP_SOURCE_FOLDER_NAME)
     source_full_path = combine_folder_and_file_name(
         folder_name=source_folder_name, file_name=source_file_name)
-    source_file_name_match_type = args.source_file_name_match_type
-    destination_folder_name = clean_folder_name(args.destination_folder_name)
-    destination_file_name = args.destination_file_name
+    source_file_name_match_type = args.PGP_SOURCE_FILE_NAME_MATCH_TYPE
+    destination_folder_name = clean_folder_name(args.PGP_DESTINATION_FOLDER_NAME)
+    destination_file_name = args.PGP_DESTINATION_FILE_NAME
     destination_full_path = combine_folder_and_file_name(
         destination_folder_name, destination_file_name)
 
